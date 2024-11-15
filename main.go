@@ -25,6 +25,7 @@ func main() {
 
 	if err := run(ctx); err != nil {
 		telemetry.ReportError(ctx, err)
+		os.Exit(1)
 	}
 }
 
