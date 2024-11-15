@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"io"
 	"log/slog"
 	"net/http"
 	"os"
@@ -46,6 +48,12 @@ func run(ctx context.Context) error {
 		return errors.Trace(err)
 	}
 	defer resp.Body.Close()
+
+	content, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return errors.Trace(err)
+	}
+	fmt.Println(string(content))
 
 	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("cron unexpected status %v", resp.Status)
